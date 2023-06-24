@@ -10,32 +10,32 @@ The following is a sample of products created during the _"Data Visualization an
 
 In the `project_01/` folder you can find my first attempt at experementing a few techniques for visualizing data. I have previously seen ggplots with images as points before, so this was my chance. Although it didn't come out perfect, I really enjoy the idea and the *unfinished* look to it. I can't wait to go back to it soon and refresh it.
 
-**Sample data visualization:** 
+**Sneak Peak:** 
 
-<img src="https://github.com/reisanar/figs/raw/master/echarts.png" width="70%" height="70%">
+<img src="https://raw.githubusercontent.com/dhubois/dataviz_final_project/main/figures/timed_serves.png" width="70%" height="70%">
 
 
 ## Project 02
 
 In this project, I was mainly motivated to try to raise a competition between the top 25 runners' countries and within the USA. The visualizations completed compliment my motivation very well.
 
-**Sample data visualization:** 
+**Sneak Peak:** 
 
-_[include your favorite visualization from this project here]_
-<img src="https://raw.githubusercontent.com/reisanar/dataviz_final_project/main/figures/fl_higher_ed.png" width="80%" height="80%">
 
-(you can place your figures in the `figures/` folder and use the `![](path_to_picture)` option to add the pictures here)
+<img src="https://raw.githubusercontent.com/dhubois/dataviz_final_project/main/figures/top15_runners_boston.png" width="80%" height="80%">
 
+<img src="https://raw.githubusercontent.com/dhubois/dataviz_final_project/main/figures/us_participation_boston.png" width="80%" height="80%">
 
 ## Project 03
 
-In this project, I explored the idea of trying to emulate plots already made. A template provided by my Professor (Dr. Sanchez) included 4 unique graphs visualizing distributions of features. We mainly focused on a dataset which contains weather data for a station at Tampa International Airport in 2022.
+In this project, I explored the idea of trying to emulate plots already made. A template provided by my Professor (Dr. Sanchez) included 4 unique graphs visualizing distributions of features. We mainly focused on a dataset which contains weather data for a station at Tampa International Airport in 2022. There was a second part in this project wher we were tasked with creating a text visualization. I have done this before for other projects, and I brought in the idea of a wordcloud to the [FL Poly News Dataset](https://github.com/reisanar/datasets/blob/master/flpoly_news_SP23.csv).
 
-**Sample data visualization:** 
+**Sneak Peak:** 
 
 
-<img src="https://github.com/reisanar/figs/raw/master/concrete_density.png" width="80%" height="80%">
+<img src="https://raw.githubusercontent.com/dhubois/dataviz_final_project/main/figures/p3_precipitation.png" width="80%" height="80%">
 
+<img src="https://raw.githubusercontent.com/dhubois/dataviz_final_project/main/figures/poly_newstitle_wordcloud.png" width="80%" height="80%">
 
 ### Moving Forward
 
