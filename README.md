@@ -2,18 +2,18 @@
 
 Learn more about me in my [GitHub profile page](https://github.com/dhubois). 
 
+---
 
 The following is a sample of products created during the _"Data Visualization and Reproducible Research"_ course.
-
 
 ## Project 01
 
 In the `project_01/` folder you can find my first attempt at experementing a few techniques for visualizing data. I have previously seen ggplots with images as points before, so this was my chance. Although it didn't come out perfect, I really enjoy the idea and the *unfinished* look to it. I can't wait to go back to it soon and refresh it.
 
 **Sneak Peak:** 
-
+<p align="center"> 
 <img src="https://raw.githubusercontent.com/dhubois/dataviz_final_project/main/figures/timed_serves.png" width="70%" height="70%">
-
+</p>p
 
 ## Project 02
 
@@ -21,10 +21,14 @@ In this project, I was mainly motivated to try to raise a competition between th
 
 **Sneak Peak:** 
 
-
+<p align="center"> 
 <img src="https://raw.githubusercontent.com/dhubois/dataviz_final_project/main/figures/top15_runners_boston.png" width="80%" height="80%">
+</p>
 
+<p align="center"> 
 <img src="https://raw.githubusercontent.com/dhubois/dataviz_final_project/main/figures/us_participation_boston.png" width="80%" height="80%">
+</p>
+
 
 ## Project 03
 
@@ -32,14 +36,19 @@ In this project, I explored the idea of trying to emulate plots already made. A 
 
 **Sneak Peak:** 
 
-
+<p align="center"> 
 <img src="https://raw.githubusercontent.com/dhubois/dataviz_final_project/main/figures/p3_precipitation.png" width="80%" height="80%">
+</p>
 
+<p align="center"> 
 <img src="https://raw.githubusercontent.com/dhubois/dataviz_final_project/main/figures/poly_newstitle_wordcloud.png" width="80%" height="80%">
+</p>
 
 ### Moving Forward
 
 In the near future, I'd like to come back to this repo and _polish_ up the projects. I know I can do better. With this however, the most important takeaway for me is very simple and it is integral to my thoughts around visualizing any and all data. These projects helped me discover and engrain a process I will now continue to use to make sure I get close to the best possible visualization at any situation. Combined with learnings from previous courses and Google Data Analytics, I'm very excited to bring these skills into a professional workspace and create meaningful, insightful designs which will drive decisions. At the beginning of the process it's all about thinking outside of the box to create and find measures we can plot, we want to find trends (duh!). Then try some plots and visually watch how they differ, what are the key differences between a `geom_col()` and a `geom_point()` for this particular dataset? Now let creativity fly as you start to use colors, design principles and unique packages to create relatable, insightful and meaningful plots. And always remember, that at the end of the day, all we are trying do is tell a story.
+
+---
 
 _Special thank you to [Dr. Rei Sanchez](https://github.com/reisanar) for an exhilarating 3 semesters, thank you for being a great role model and always pushing us to be better. It's exactly what we need, whether we know it or not, and whether we like it or not._
 
