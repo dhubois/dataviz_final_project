@@ -1,0 +1,65 @@
+---
+title: "Data Visualization - Mini-Project 1"
+author: "Paul Dubois `pdubois6743@floridapoly.edu`"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(ggimage)
+```
+
+
+```{r}
+data_url <- "https://raw.githubusercontent.com/reisanar/datasets/master/serve_times.csv"
+df <- read_csv(data_url, col_types = cols())
+df
+```
+
+```{r}
+df %>% 
+  group_by(date) %>% 
+  summarise(avg_time = mean(sec_between)) %>% 
+  ggplot(df, mapping = aes(x = date, y = avg_time)) +
+    geom_line(color = "darkgreen") +
+    geom_image(image = "../data/tennisball.png", asp = 1.4) +
+    labs(title = "How Does the Time Spent Between Serves Change as the French Open Goes?",
+       x = "", y = "Average Time in Seconds")
+```
+
+
+```{r}
+image <- "https://www.tengo.si/en/imagelib/product-details-main/default/dodatki/wilson-roland-garros-jumbo-ball-wi1419-a.jpeg"
+image2 <- "../data/tennisball.png"
+df %>% 
+  group_by(server) %>% 
+  summarise(average_time = mean(sec_between)) %>% 
+  ggplot(mapping = aes(x = fct_reorder(server, average_time), y = average_time)) +
+    geom_pointrange(aes(ymin = 0, ymax = average_time)) + 
+    geom_image(mapping = aes(image = image2), asp = 1.4) + 
+    labs(title = "Most Time Spent between Serves on Average", x = "", y = "Time in Seconds") + 
+    theme_grey() + coord_flip() 
+```
+
+```{r}
+df %>% 
+  filter(game_score == "Deuce") 
+```
+
+
+```{r}
+df %>% 
+  count(game, date) %>% 
+  ggplot(aes(x = game, y = n)) +
+    geom_col() +
+    facet_wrap(~date) +
+    coord_flip() +
+    labs(title = "Distribution of Game Results Each Day of the French Open", x = "Score", y  = "")
+```
+
+```{r}
+ggplot(df, aes(x = server, y = sec_between)) +
+  geom_boxplot() +
+  labs(title = "Player's Distribution of Time In Between Serves", y = "Time in Seconds", x ="") + coord_flip()
+```
+
