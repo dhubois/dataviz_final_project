@@ -28,7 +28,7 @@ In this project, I was mainly motivated to try to raise a competition between th
 
 ## Project 03
 
-In this project, I explored the idea of trying to emulate plots already made. A template provided by my Professor (Dr. Sanchez) included 4 unique graphs visualizing distributions of features. We mainly focused on a dataset which contains weather data for a station at Tampa International Airport in 2022. There was a second part in this project wher we were tasked with creating a text visualization. I have done this before for other projects, and I brought in the idea of a wordcloud to the [FL Poly News Dataset](https://github.com/reisanar/datasets/blob/master/flpoly_news_SP23.csv).
+In this project, I explored the idea of trying to emulate plots already made. A template provided by my Professor (Dr. Sanchez) included 4 unique graphs visualizing distributions of features. We mainly focused on a dataset which contains weather data for a station at Tampa International Airport in 2022. There was a second part in this project wher we were tasked with creating a text visualization. I have done this before for other projects, and I brought in the idea of a wordcloud to the [FL Poly News Dataset](https://github.com/reisanar/datasets/blob/master/flpoly_news_SP23.csv). If you ever wondered (I have before surprisingly) about Florida Poly's news article **titles**, here is an visual showing the most common bigrams in them. Do any stick out to you? Reach out to me and let me know! :)
 
 **Sneak Peak:** 
 
