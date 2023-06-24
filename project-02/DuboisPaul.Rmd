@@ -1,0 +1,168 @@
+---
+title: "Data Visualization - Mini-Project 2"
+author: "Paul Dubois `pdubois6743@floridapoly.edu`"
+output: html_document
+---
+
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(plotly)
+```
+
+# Read in data
+
+```{r}
+path <- "../data/marathon_results_2017.csv"
+marathon <- read_csv(path)
+colnames(marathon)
+```
+### Interactive Plot
+
+#### Top 25 runners
+
+```{r}
+p1_data <- marathon %>% 
+  group_by(Country) %>% 
+  summarise(fastest_time = min(`Official Time`),
+            fastest_runner = Name[which.min(`Official Time`)]) %>% 
+  arrange(fastest_time) %>% 
+  head(15)
+```
+
+* plot the data
+
+```{r}
+top15 <- ggplot(data = p1_data, mapping = aes(x = fastest_time, y = fct_reorder(Country, fastest_time, .desc = TRUE))) +
+  geom_col(aes(fill = Country), color = "lightgray", alpha = 0.3) +
+  geom_text(aes(label = `fastest_runner`),  nudge_x = -3000, ) +
+  scale_x_continuous(limits = c(0, 11000)) +
+  labs(
+    title = "Top 15 Runners by Country",
+    subtitle = "2017 Boston Marathon",
+    x = "Time in Seconds",
+    y = ""
+  ) +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(hjust=0.5, vjust=2, size=14),
+    plot.subtitle = element_text(hjust=0.5, vjust=3)
+  )
+
+top15
+```
+
+```{r}
+ggplotly(top15)
+```
+
+
+### Spacial visualization of the number of racers per state in USA
+
+```{r}
+unwanted <- c("AA", "AE","AP","MH","GU","PR","VI","DC")
+USA_runners <- 
+  marathon %>% 
+  filter(Country == "USA") %>% 
+  filter(!State %in% unwanted) %>% 
+  group_by(State) %>% 
+  summarise(num_runners = n())%>% 
+  rename(state = State)
+```
+
+```{r}
+USA_runners %>% 
+  filter(state == "MA") %>% 
+  pull
+```
+
+```{r}
+USA_runners %>% 
+  filter(!state == "MA") %>% 
+  summarise(total_other = sum(num_runners))
+```
+
+
+#### Using `usmap` to create spatial visualization
+
+* I attempted to use the USA shapefiles and `sf` package
+  * However, I learned a very hard lesson in trying to manually adjust size and shape of the entir plot margins
+  * I could not get it zoomed in enough to see details
+* Which lead me to use this package
+
+```{r}
+library(usmap)
+plot_usmap(data = USA_runners, values = "num_runners") +
+  scale_fill_continuous(low = "lightblue", high = "black", name = "Number of Runners", label = scales::comma) + 
+  labs(title = "US Participation by State", subtitle = "2017 Boston Marathon") +
+  theme(
+    plot.title = element_text(hjust=0.5, vjust=0, size=14),
+    plot.subtitle = element_text(hjust=0.5, vjust=0),
+    legend.position = "right"
+    )
+```
+
+
+```{r}
+us_participation <- plot_usmap(data = USA_runners, values = "num_runners") +
+  scale_fill_continuous(low = "lightblue", high = "black", name = "Number of Runners", label = scales::comma) + 
+  labs(title = "US Participation by State", subtitle = "2017 Boston Marathon") +
+  theme(
+    plot.title = element_text(hjust=0.5, vjust=0, size=14),
+    plot.subtitle = element_text(hjust=0.5, vjust=0)
+    )
+
+ggplotly(us_participation)
+```
+
+
+### Models
+
+#### How much does age affect your official time
+
+* Hypothesize the relationship between `Age` and `Official Time` to be highly positively correlated
+* Why?  
+  * As we get older, our marathon times would increase
+  * However we can see that in the ages from 20-40 there are many runners who had extrememly fast times
+* Conclusion is in general, yes there is a positive correlation, it is not highly correlated however as we can tell from our linear model
+
+```{r}
+ggplot(data = marathon, aes(x = Age, y = `Official Time`)) + 
+  geom_point( alpha = 0.1) +
+  geom_smooth(method = "lm") +
+  facet_wrap(~`M/F`)
+```
+
+#### Let's take a look at a highly correlated relationship
+* Hypothesize the faster a runner reaches halfway, it does not necessarily mean they will complete the marathon faster than others 
+* Why?
+  * It could be that runners are not focusing enough and run faster during the first half and get too tired to keep up the pace
+* Conclusion, for the 2017 Boston Marathon, the relationship between the time it took a runner to get to halfway and finish is highly correlated
+
+```{r}
+ggplot(data = marathon, aes(x = Half, y = `Official Time`)) + 
+  geom_point( alpha = 0.1) +
+  geom_smooth(aes(color = `M/F`), method = "lm") +
+  facet_wrap(~`M/F`) +
+  theme(
+    legend.position = "none"
+  )
+```
+
+#### Let's take a look at an extreme correlation
+
+* Hypothesize the quicker a runner's pace is, the faster they will finish
+* Why?
+  * The math just seems to add up here :)
+* Conclusion, extreme correlation!
+
+```{r}
+ggplot(data = marathon, aes(x = Pace, y = `Official Time`)) + 
+  geom_point( alpha = 0.1) +
+  geom_smooth(aes(color = `M/F`), method = "lm") +
+  facet_wrap(~`M/F`) +
+  theme(
+    legend.position = "none"
+  )
+```
