@@ -1,10 +1,6 @@
 ---
 title: "Data Visualization for Exploratory Data Analysis"
-output: 
-  html_document:
-    keep_md: true
-    toc: true
-    toc_float: true
+output: html_document
 ---
 
 # Data Visualization Project 03
@@ -34,6 +30,27 @@ Using the 2022 data:
 knitr::include_graphics("https://github.com/reisanar/figs/raw/master/tpa_max_temps_facet.png")
 ```
 
+```{r}
+# Create a count for each day of the temperature
+weather_tpa %>% 
+  mutate(monthName = month.name[month]) %>% 
+  ggplot(mapping = aes(x = max_temp, fill = factor(monthName, levels = month.name))) +
+  geom_histogram(color = "white", binwidth = 3) + 
+  facet_wrap(~factor(monthName, levels = month.name), ncol = 3) +
+  labs(
+    x = "Maximum temperatures",
+    y = "Number of Days"
+  ) +
+  scale_fill_viridis_d(name = "Temp. [F]", option = "D")+
+  theme(
+    legend.position = "none",
+    axis.title.y = element_text(size = 15),
+    axis.title.x = element_text(size = 15)
+  )
+```
+
+
+
 Hint: the option `binwidth = 3` was used with the `geom_histogram()` function.
 
 (b) Create a plot like the one below:
@@ -41,6 +58,12 @@ Hint: the option `binwidth = 3` was used with the `geom_histogram()` function.
 ```{r, echo = FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("https://github.com/reisanar/figs/raw/master/tpa_max_temps_density.png")
 ```
+
+```{r}
+ggplot(data = weather_tpa, mapping = aes(max_temp)) + ## Why is the original graph starting at 50ish?
+  geom_density(kernel = "epanechnikov", bw = 0.5, fill = "darkgray") ## Change color and kernel type
+```
+
 
 Hint: check the `kernel` parameter of the `geom_density()` function, and use `bw = 0.5`.
 
@@ -52,6 +75,21 @@ knitr::include_graphics("https://github.com/reisanar/figs/raw/master/tpa_max_tem
 
 Hint: default options for `geom_density()` were used. 
 
+```{r}
+weather_tpa %>% 
+  mutate(monthName = month.name[month]) %>% 
+  ggplot(mapping = aes(x = max_temp, fill = factor(monthName, levels = month.name))) + 
+  geom_density(alpha = 0.5) +
+  facet_wrap(~factor(monthName, levels = month.name), ncol = 3) +
+  scale_fill_viridis_d(option = "D") +
+  theme(
+    legend.position = "none",
+    axis.title.y = element_text(size = 15),
+    axis.title.x = element_text(size = 15)
+  )
+```
+
+
 (d) Generate a plot like the chart below:
 
 
@@ -62,9 +100,54 @@ knitr::include_graphics("https://github.com/reisanar/figs/raw/master/tpa_max_tem
 Hint: use the`{ggridges}` package, and the `geom_density_ridges()` function paying close attention to the `quantile_lines` and `quantiles` parameters. The plot above uses the `plasma` option (color scale) for the _viridis_ palette.
 
 
+```{r}
+library(ggridges)
+library(viridisLite)
+weather_tpa %>% 
+  mutate(monthName = month.name[month]) %>% 
+  ggplot(mapping = aes(x = max_temp, y = factor(monthName, levels = month.name), fill = stat(x))) + 
+    stat_density_ridges(geom = "density_ridges_gradient", quantile_lines = TRUE, quantiles = 2) +
+    scale_fill_viridis_c(option = "C") +
+  labs(
+    x = "Maximum temperature (in Fahrenheit degrees",
+    y = ""
+  ) + 
+  xlim(c(50,100)) +
+  theme(
+    legend.title = element_blank(),
+    axis.text.y = element_text(size = 13),
+    axis.title.x = element_text(size = 18)
+  )
+  
+```
+
+
 (e) Create a plot of your choice that uses the attribute for precipitation _(values of -99.9 for temperature or -99.99 for precipitation represent missing data)_.
 
-
+```{r}
+weather_tpa %>% 
+  mutate(monthName = month.name[month]) %>% 
+  group_by(monthName) %>% 
+  summarise(precip_avg = mean(precipitation)) %>% 
+  ggplot(mapping = aes(x = factor(monthName, levels = month.name), y = precip_avg, color = precip_avg)) +
+    geom_pointrange(mapping = aes(ymin = 0, ymax = precip_avg)) +
+    geom_point(mapping = aes(size = precip_avg)) +
+  scale_color_gradient(low = "#56b9ff", high = "#0a2859") +
+  # scale_color_viridis_b(name = "", option = "", direction = -1) +
+  labs(
+    x = "",
+    y = "Average Precipitation"
+  ) +
+  theme(
+    legend.position = "none",
+    axis.title.x = element_text(size = 15),
+    axis.text.x = element_text(size = 9),
+    axis.text.y = element_text(size = 12)
+  ) +
+  coord_flip()
+  
+```
+> I think a really cool idea would be to have a real looking bucket for each month, and have the amount of precipitation fill the bucket relative to other months and the amount of liquid the bucket can hold.
 
 ## PART 2 
 
@@ -89,57 +172,28 @@ Make sure to include a copy of the dataset in the `data/` folder, and reference 
 (to get the "raw" data from any of the links listed above, simply click on the `raw` button of the GitHub page and copy the URL to be able to read it in your computer using the `read_csv()` function)
 
 
-### Option (B): Data on Concrete Strength 
-
-Concrete is the most important material in **civil engineering**. The concrete compressive strength is a highly nonlinear function of _age_ and _ingredients_. The dataset used here is from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/index.php), and it contains 1030 observations with 9 different attributes 9 (8 quantitative input variables, and 1 quantitative output variable). A data dictionary is included below: 
-
-
-Variable                      |    Notes                
-------------------------------|-------------------------------------------
-Cement                        | kg in a $m^3$ mixture             
-Blast Furnace Slag            | kg in a $m^3$ mixture  
-Fly Ash                       | kg in a $m^3$ mixture             
-Water                         | kg in a $m^3$ mixture              
-Superplasticizer              | kg in a $m^3$ mixture
-Coarse Aggregate              | kg in a $m^3$ mixture
-Fine Aggregate                | kg in a $m^3$ mixture      
-Age                           | in days                                             
-Concrete compressive strength | MPa, megapascals
-
-
-Below we read the `.csv` file using `readr::read_csv()` (the `readr` package is part of the `tidyverse`)
+```{r}
+library(wordcloud2)
+library(tidytext)
+poly_news <- read_csv("https://raw.githubusercontent.com/reisanar/datasets/master/flpoly_news_SP23.csv")
+```
 
 ```{r}
-concrete <- read_csv("../data/concrete.csv", col_types = cols())
+bigram_wcloud <- poly_news %>% 
+  unnest_tokens(bigram, news_summary, token = "ngrams", n = 2) %>% 
+  separate(bigram, c("word1", "word2"), sep = " ") %>% 
+  filter(!word1 %in% stop_words$word) %>% # remove stopwords
+  filter(!word2 %in% stop_words$word) %>% # remove stopwords
+  unite(bigram, word1, word2, sep = " ") %>% 
+  count(bigram, sort = TRUE) %>% 
+  top_n(100)
+
+set.seed(2006)
 ```
 
-
-Let us create a new attribute for visualization purposes, `strength_range`: 
 
 ```{r}
-new_concrete <- concrete %>%
-  mutate(strength_range = cut(Concrete_compressive_strength, 
-                              breaks = quantile(Concrete_compressive_strength, 
-                                                probs = seq(0, 1, 0.2))) )
+set.seed(1)
+wordcloud2(bigram_wcloud, size = 7, shuffle = 10)
 ```
-
-
-
-1. Explore the distribution of 2 of the continuous variables available in the dataset. Do ranges make sense? Comment on your findings.
-
-2. Use a _temporal_ indicator such as the one available in the variable `Age` (measured in days). Generate a plot similar to the one shown below. Comment on your results.
-
-```{r, echo = FALSE, out.width="80%", fig.align='center'}
-knitr::include_graphics("https://github.com/reisanar/figs/raw/master/concrete_strength.png")
-```
-
-
-3. Create a scatterplot similar to the one shown below. Pay special attention to which variables are being mapped to specific aesthetics of the plot. Comment on your results. 
-
-```{r, echo = FALSE, out.width="80%", fig.align='center'}
-knitr::include_graphics("https://github.com/reisanar/figs/raw/master/cement_plot.png")
-```
-
-
-
 
