@@ -13,7 +13,7 @@ In the `project_01/` folder you can find my first attempt at experementing a few
 **Sneak Peak:** 
 <p align="center"> 
 <img src="https://raw.githubusercontent.com/dhubois/dataviz_final_project/main/figures/timed_serves.png" width="70%" height="70%">
-</p>p
+</p>
 
 ## Project 02
 
